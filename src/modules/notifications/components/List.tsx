@@ -2,6 +2,7 @@ import React from 'react';
 import { X, Trash2, Check, Undo, Inbox, ExternalLink } from 'lucide-react';
 import { useNotifications } from '../useNotifications';
 import { Notif } from '../types';
+import NotificationItem from './NotificationItem';
 
 interface ListProps {
   isOpen: boolean;
@@ -9,13 +10,6 @@ interface ListProps {
   onItemClick?: (notif: Notif) => void;
   navigate?: (path: string) => void;
 }
-
-const kindStyles = {
-  info: { icon: 'text-secondary', bg: 'bg-secondary/10' },
-  success: { icon: 'text-success', bg: 'bg-success/10' },
-  warning: { icon: 'text-warning', bg: 'bg-warning/10' },
-  error: { icon: 'text-error', bg: 'bg-error/10' },
-};
 
 export const List: React.FC<ListProps> = ({ isOpen, onClose, onItemClick, navigate }) => {
   const { items, markRead, markUnread, dismiss, clearAll, toast } = useNotifications();
@@ -95,28 +89,15 @@ export const List: React.FC<ListProps> = ({ isOpen, onClose, onItemClick, naviga
         ) : (
           <ul className="divide-y divide-border">
             {items.map(notif => (
-              <li key={notif.id} className={`p-4 ${kindStyles[notif.kind].bg} hover:bg-border/50 transition-colors group`}>
-                <div className="flex items-start gap-3">
-                  <div className={`flex-shrink-0 w-2 h-2 mt-1.5 rounded-full ${notif.read ? 'bg-gray-500' : 'bg-primary animate-pulse'}`} title={notif.read ? 'Leída' : 'No leída'}></div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-text">{notif.title}</p>
-                    {notif.message && <p className="text-sm text-textSecondary mt-1">{notif.message}</p>}
-                    <div className="flex items-center gap-4 mt-3 text-xs text-textSecondary">
-                      <button onClick={() => notif.read ? handleMarkUnread(notif.id) : handleMarkRead(notif.id)} className="hover:text-primary transition-colors flex items-center gap-1">
-                        {notif.read ? <Undo size={14} /> : <Check size={14} />}
-                        {notif.read ? 'No leído' : 'Leído'}
-                      </button>
-                      {notif.data?.route && (
-                        <button onClick={() => handleItemClick(notif)} className="hover:text-primary transition-colors flex items-center gap-1">
-                          <ExternalLink size={14} /> Abrir
-                        </button>
-                      )}
-                      <button onClick={() => handleDismiss(notif.id)} className="hover:text-error transition-colors flex items-center gap-1 ml-auto opacity-0 group-hover:opacity-100">
-                        <Trash2 size={14} /> Descartar
-                      </button>
-                    </div>
-                  </div>
-                </div>
+              <li key={notif.id}>
+                <NotificationItem
+                  notification={notif}
+                  onMarkRead={handleMarkRead}
+                  onMarkUnread={handleMarkUnread}
+                  onDismiss={handleDismiss}
+                  onItemClick={onItemClick}
+                  navigate={navigate}
+                />
               </li>
             ))}
           </ul>
