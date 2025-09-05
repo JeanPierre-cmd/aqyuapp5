@@ -11,7 +11,7 @@ import Maintenance from './components/Maintenance/Maintenance';
 import AlertsModule from './components/Alerts/AlertsModule';
 import Cages from './features/cages/components/Cages';
 import StructuralHistory from './components/Structural/StructuralHistory';
-import ModelsPage from './components/ModelViewer/ModelsPage';
+import ModelsPage from './features/viewer3d/components/ModelsPage';
 import CenterComparison from './components/Comparative/CenterComparison';
 import LoginPage from './components/Auth/LoginPage';
 import SupportCenter from './components/Support/SupportCenter';
