@@ -9,8 +9,7 @@ import Visualization3D from './components/Visualization3D/Visualization3D';
 import ReportsModule from './features/reports/ReportsModule';
 import Maintenance from './components/Maintenance/Maintenance';
 import AlertsModule from './components/Alerts/AlertsModule';
-import CageManagement from './components/CageManagement/CageManagement';
-import Infrastructure from './components/Infrastructure/Infrastructure';
+import Cages from './features/cages/components/Cages';
 import StructuralHistory from './components/Structural/StructuralHistory';
 import ModelsPage from './components/ModelViewer/ModelsPage';
 import CenterComparison from './components/Comparative/CenterComparison';
@@ -111,7 +110,7 @@ function App() {
       case MODULES.FEEDING:
         return <Feeding />;
       case MODULES.CAGES:
-        return <Infrastructure />;
+        return <Cages />;
       case MODULES.STRUCTURAL_HISTORY:
         return <StructuralHistory />;
       case MODULES.MODELS:
