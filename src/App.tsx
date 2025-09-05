@@ -16,7 +16,7 @@ import CenterComparison from './components/Comparative/CenterComparison';
 import LoginPage from './components/Auth/LoginPage';
 import SupportCenter from './components/Support/SupportCenter';
 import LoyaltyProgram from './components/Gamification/LoyaltyProgram';
-import SmartNotifications from './components/Notifications/SmartNotifications';
+import NotificationPanel from './modules/notifications/components/NotificationPanel';
 import Feeding from './components/Feeding/Feeding';
 import ConcessionsModule from './components/Concessions/ConcessionsModule'; // Importar nuevo módulo
 import { config } from './shared/env';
@@ -122,7 +122,7 @@ function App() {
       case MODULES.LOYALTY:
         return <LoyaltyProgram />;
       case MODULES.NOTIFICATIONS:
-        return <SmartNotifications />;
+        return <NotificationPanel />;
       default:
         return <Dashboard onNavigateToReports={() => setActiveModule(MODULES.REPORTS)} />;
     }
