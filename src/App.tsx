@@ -4,7 +4,7 @@ import Header from './components/Layout/Header';
 import Sidebar from './components/Layout/Sidebar';
 import Dashboard from './components/Dashboard/Dashboard';
 import WaterQuality from './features/water/components/WaterQuality';
-import FishHealth from './components/FishHealth/FishHealth';
+import FishHealth from './features/water/components/FishHealth';
 import Visualization3D from './components/Visualization3D/Visualization3D';
 import Reports from './components/Reports/Reports';
 import Maintenance from './components/Maintenance/Maintenance';
