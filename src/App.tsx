@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import WaterQuality from './features/water/components/WaterQuality';
 import FishHealth from './features/water/components/FishHealth';
 import Visualization3D from './components/Visualization3D/Visualization3D';
-import Reports from './components/Reports/Reports';
+import ReportsModule from './features/reports/ReportsModule';
 import Maintenance from './components/Maintenance/Maintenance';
 import AlertsModule from './components/Alerts/AlertsModule';
 import CageManagement from './components/CageManagement/CageManagement';
@@ -103,7 +103,7 @@ function App() {
       case MODULES.VISUALIZATION_3D:
         return <Visualization3D />;
       case MODULES.REPORTS:
-        return <Reports />;
+        return <ReportsModule />;
       case MODULES.MAINTENANCE:
         return <Maintenance />;
       case MODULES.ALERTS:
