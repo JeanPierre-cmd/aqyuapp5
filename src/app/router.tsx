@@ -1,82 +1,90 @@
 import React, { Suspense } from 'react';
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
-
+import App from '@/App';
 import { FLAGS } from '@/config/flags';
-
 import Dashboard from '@/components/Dashboard/Dashboard';
 import WaterQuality from '@/features/water/components/WaterQuality';
-// import Reports from '@/features/reports/components/Reports'; // Eliminado: Usaremos el nuevo ReportsModule
 import Visualization3D from '@/features/viewer3d/components/Visualization3D';
 import ProtectedRoute from '@/components/Auth/ProtectedRoute';
+import LoginPage from '@/components/Auth/LoginPage';
+import LandingPage from '@/components/Landing/LandingPage';
 
-// Lazy load components for code-splitting using absolute path aliases
-const LocalViewer = React.lazy(
-  () => import('@/features/viewer3d/pages/LocalViewer'),
-);
-const ImportarPage = React.lazy(
-  () => import('@/features/import/ImportarPage'),
-);
-const Cages = React.lazy(
-  () => import('@/features/cages/components/Cages'),
-);
-const Maintenance = React.lazy(
-  () => import('@/features/maintenance/components/Maintenance'),
-);
-const ReportsModule = React.lazy( // Nuevo: Carga perezosa para ReportsModule
-  () => import('@/features/reports/ReportsModule'),
-);
+// Lazy load components for code-splitting
+const LocalViewer = React.lazy(() => import('@/features/viewer3d/pages/LocalViewer'));
+const ImportarPage = React.lazy(() => import('@/features/import/ImportarPage'));
+const CageManagement = React.lazy(() => import('@/features/cages/components/CageManagement'));
+const Maintenance = React.lazy(() => import('@/features/maintenance/components/Maintenance'));
+const ReportsModule = React.lazy(() => import('@/features/reports/ReportsModule'));
 
-
-const routes: RouteObject[] = [
-  { path: '/', element: <Dashboard /> },
-  { path: '/water', element: <WaterQuality /> },
-  { path: '/viewer3d', element: <Visualization3D /> }, // legado
+const appRoutes: RouteObject[] = [
+  { path: 'dashboard', element: <Dashboard /> },
+  { path: 'analysis/water-quality', element: <WaterQuality /> },
   {
-    path: '/viewer',
+    path: 'analysis/reports',
     element: (
-      <Suspense fallback={<div className="p-4">Cargando visor…</div>}>
-        <LocalViewer />
-      </Suspense>
-    ),
-  },
-  {
-    path: '/reports', // Actualizado: Ahora usa el nuevo ReportsModule con Suspense
-    element: (
-      <Suspense fallback={<div className="p-4">Cargando reportes…</div>}>
+      <Suspense fallback={<div>Cargando reportes…</div>}>
         <ReportsModule />
       </Suspense>
     ),
   },
   {
-    path: '/cages',
+    path: 'management/cages',
     element: (
-      <Suspense fallback={<div className="p-4">Cargando infraestructura...</div>}>
-        <Cages />
+      <Suspense fallback={<div>Cargando infraestructura...</div>}>
+        <CageManagement />
       </Suspense>
-    )
+    ),
   },
   {
-    path: '/maintenance',
+    path: 'management/maintenance',
     element: (
-      <Suspense fallback={<div className="p-4">Cargando mantenimiento...</div>}>
+      <Suspense fallback={<div>Cargando mantenimiento...</div>}>
         <Maintenance />
       </Suspense>
-    )
+    ),
+  },
+  { path: 'viewer/3d', element: <Visualization3D /> },
+  {
+    path: 'viewer/local',
+    element: (
+      <Suspense fallback={<div>Cargando visor…</div>}>
+        <LocalViewer />
+      </Suspense>
+    ),
   },
 ];
 
-// Conditionally add the import route based on the feature flag and protect it
 if (FLAGS.IMPORTAR_ENABLED) {
-  routes.push({
-    path: '/importar',
+  appRoutes.push({
+    path: 'admin/import',
     element: (
       <ProtectedRoute roles={['admin', 'supervisor']}>
-        <Suspense fallback={<div className="p-4">Cargando página de importación...</div>}>
+        <Suspense fallback={<div>Cargando página de importación...</div>}>
           <ImportarPage />
         </Suspense>
       </ProtectedRoute>
-    )
+    ),
   });
 }
 
-export const router = createBrowserRouter(routes);
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <LandingPage />,
+  },
+  {
+    path: '/login',
+    element: <LoginPage />,
+  },
+  {
+    path: '/app',
+    element: (
+      <ProtectedRoute>
+        <App />
+      </ProtectedRoute>
+    ),
+    children: appRoutes,
+  },
+]);
+
+export { router };

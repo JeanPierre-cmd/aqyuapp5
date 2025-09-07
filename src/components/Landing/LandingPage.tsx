@@ -1,20 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Waves, ArrowRight, CheckCircle, Fish, Droplets, BarChart3, Settings, Wrench, Bell, Database, Lightbulb, Rocket, Cpu } from 'lucide-react';
 
-interface LandingPageProps {
-  onEnter: () => void;
-}
-
-const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleEnter = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      onEnter();
-    }, 1500);
-  };
-
+const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -30,23 +18,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
             </div>
           </div>
           
-          <button
-            onClick={handleEnter}
-            disabled={isLoading}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all flex items-center space-x-2 disabled:opacity-50"
+          <Link
+            to="/login"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all flex items-center space-x-2"
           >
-            {isLoading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Cargando...</span>
-              </>
-            ) : (
-              <>
-                <span>Iniciar Sesión</span>
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </button>
+            <span>Iniciar Sesión</span>
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </header>
 
@@ -70,14 +48,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <button
-              onClick={handleEnter}
-              disabled={isLoading}
-              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all flex items-center space-x-2 disabled:opacity-50"
+            <Link
+              to="/login"
+              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all flex items-center space-x-2"
             >
               <span>Comenzar Ahora</span>
               <ArrowRight className="h-5 w-5" />
-            </button>
+            </Link>
             
             <div className="flex items-center text-green-600 text-sm font-medium">
               <CheckCircle className="h-4 w-4 mr-2" />
@@ -266,12 +243,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
               </div>
               
               <div className="text-center">
-                <button
-                  onClick={handleEnter}
+                <Link to="/login"
                   className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
                 >
                   Explorar Plataforma
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -340,13 +316,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
             </div>
           </div>
 
-          <button
-            onClick={handleEnter}
+          <Link
+            to="/login"
             className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all flex items-center space-x-2 mx-auto"
           >
             <span>Impulsar mi Empresa con IA</span>
             <ArrowRight className="h-5 w-5" />
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -361,23 +337,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onEnter }) => {
             productividad y rentabilidad.
           </p>
           
-          <button
-            onClick={handleEnter}
-            disabled={isLoading}
-            className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all flex items-center space-x-2 mx-auto disabled:opacity-50"
+          <Link
+            to="/login"
+            className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all flex items-center space-x-2 mx-auto"
           >
-            {isLoading ? (
-              <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Iniciando...</span>
-              </>
-            ) : (
-              <>
-                <span>Ingresar a la Plataforma</span>
-                <ArrowRight className="h-5 w-5" />
-              </>
-            )}
-          </button>
+            <span>Ingresar a la Plataforma</span>
+            <ArrowRight className="h-5 w-5" />
+          </Link>
           
           <p className="text-sm text-gray-400 mt-4">
             Acceso inmediato • Sin compromisos • Soporte técnico incluido
