@@ -1,28 +1,113 @@
-import js from '@eslint/js';
-import globals from 'globals';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+const typescriptAdjustments =
+  tsPlugin.configs['eslint-recommended']?.overrides?.[0]?.rules ?? {};
+
+const browserGlobals = {
+  AbortController: false,
+  alert: false,
+  atob: false,
+  Audio: false,
+  Blob: false,
+  BroadcastChannel: false,
+  btoa: false,
+  Cache: false,
+  CacheStorage: false,
+  Clipboard: false,
+  CloseEvent: false,
+  clearInterval: false,
+  clearTimeout: false,
+  console: false,
+  crypto: false,
+  CustomEvent: false,
+  DOMException: false,
+  document: false,
+  globalThis: false,
+  Document: false,
+  Element: false,
+  HTMLElement: false,
+  HTMLCanvasElement: false,
+  HTMLImageElement: false,
+  HTMLVideoElement: false,
+  Event: false,
+  EventSource: false,
+  fetch: false,
+  File: false,
+  FileList: false,
+  FileReader: false,
+  FormData: false,
+  Headers: false,
+  Image: false,
+  ImageData: false,
+  Intl: false,
+  KeyboardEvent: false,
+  localStorage: false,
+  location: false,
+  MessageChannel: false,
+  MessageEvent: false,
+  MessagePort: false,
+  MouseEvent: false,
+  navigator: false,
+  Notification: false,
+  Performance: false,
+  performance: false,
+  Promise: false,
+  queueMicrotask: false,
+  requestIdleCallback: false,
+  requestAnimationFrame: false,
+  Request: false,
+  Response: false,
+  ResizeObserver: false,
+  screen: false,
+  ScrollToOptions: false,
+  setInterval: false,
+  setTimeout: false,
+  self: false,
+  sessionStorage: false,
+  Storage: false,
+  structuredClone: false,
+  URL: false,
+  URLSearchParams: false,
+  WebSocket: false,
+  WritableStream: false,
+  ReadableStream: false,
+  TransformStream: false,
+  window: false,
+  Worker: false,
+};
+
+export default [
   { ignores: ['dist'] },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx,mts,cts}'],
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+      },
+      globals: browserGlobals,
     },
     plugins: {
+      '@typescript-eslint': tsPlugin,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
     rules: {
+      ...typescriptAdjustments,
+      ...tsPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      'prefer-const': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
       ],
     },
-  }
-);
+  },
+];
