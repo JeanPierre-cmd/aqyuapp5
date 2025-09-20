@@ -68,8 +68,7 @@ self.onmessage = async (e: MessageEvent<ArrayBuffer>) => {
       transfer,
     );
   } catch (err) {
-    const errorMsg =
-      err instanceof Error ? err.message : /* eslint-disable-line  @typescript-eslint/no-unsafe-argument */ String(err);
+    const errorMsg = err instanceof Error ? err.message : String(err);
 
     (self as DedicatedWorkerGlobalScope).postMessage(
       { ok: false, error: errorMsg } as WorkerResponse,
